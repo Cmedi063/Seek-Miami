@@ -3,7 +3,7 @@ import {
   MapPin, Beer, Tv, Music, Navigation, 
   Search, Heart, X, Star, Clock, Users,
   Crosshair, Layers, Check, List, Map, Plus,
-  Compass, Wine
+  Compass, Wine, Sunset
 } from 'lucide-react';
 
 // --- DATA ENRICHMENT ---
@@ -13,7 +13,8 @@ const NEIGHBORHOODS = {
   "Midtown": {x: 55, y: 45}, "Wynwood": {x: 55, y: 48}, "Mid Beach": {x: 78, y: 45},
   "North Beach": {x: 78, y: 30}, "Hialeah": {x: 30, y: 42}, "Coconut Grove": {x: 40, y: 78},
   "Coral Gables": {x: 35, y: 75}, "Homestead": {x: 20, y: 92}, "Little Haiti": {x: 53, y: 40},
-  "North Miami": {x: 60, y: 25}, "South Miami": {x: 35, y: 85}, "Doral": {x: 25, y: 55}
+  "North Miami": {x: 60, y: 25}, "South Miami": {x: 35, y: 85}, "Doral": {x: 25, y: 55},
+  "Venetian Islands": {x: 68, y: 55}, "Virginia Key": {x: 62, y: 78}
 };
 
 const VIDEOS = [
@@ -43,6 +44,11 @@ const IMAGES = {
     "https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=600&q=80", 
     "https://images.unsplash.com/photo-1470229722913-7c090ba2f0a4?w=600&q=80",
     "https://images.unsplash.com/photo-1574682711059-8354c0e69cb4?w=600&q=80"
+  ],
+  "Sunset Crawl": [
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80",
+    "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600&q=80",
+    "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&q=80"
   ]
 };
 
@@ -79,6 +85,71 @@ const RAW_BAR_LIST = [
   { n: "Miami Brewing Co", c: "Lounges & Breweries", loc: "Homestead" },
   { n: "ZeyZey", c: "Lounges & Breweries", loc: "Little Haiti" },
   { n: "Magie", c: "Lounges & Breweries", loc: "Little River" },
+  {
+    n: "Lido Bayside & Monterrey Bar",
+    c: "Sunset Crawl",
+    loc: "Venetian Islands",
+    price: "$$$",
+    rating: "4.2",
+    desc: "Start on the islands with a west-facing golden-hour view over Biscayne Bay. Lido Bayside gives you the sunset vantage point, then Monterrey Bar inside The Standard Spa turns the crawl into cocktail mode.",
+    signatureDrink: "Bayside spritz or first-round cocktail",
+    happyHour: "6:00 PM - 7:45 PM",
+    dressCode: "Cocktail chic",
+    coords: { x: 68, y: 55 },
+    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80"
+  },
+  {
+    n: "La Ferneteria",
+    c: "Sunset Crawl",
+    loc: "Wynwood",
+    price: "$$$",
+    rating: "4.6",
+    desc: "A quick westbound move into Wynwood takes the night up to a 9th-floor rooftop. La Ferneteria brings open-air energy, neighborhood views, and amaro-focused Italian cocktail craft.",
+    signatureDrink: "Fernet or amaro cocktail",
+    happyHour: "8:00 PM - 9:00 PM",
+    dressCode: "Smart casual",
+    coords: { x: 56, y: 48 },
+    img: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600&q=80"
+  },
+  {
+    n: "Right Hand",
+    c: "Sunset Crawl",
+    loc: "Downtown",
+    price: "$$",
+    rating: "4.9",
+    desc: "Drop into Downtown for a tighter, moodier contrast after the rooftop. Right Hand keeps the night focused with a sleek speakeasy-style cocktail room tucked into the urban core.",
+    signatureDrink: "Dealer's choice cocktail",
+    happyHour: "9:15 PM - 10:00 PM",
+    dressCode: "Night-out casual",
+    coords: { x: 55, y: 56 },
+    img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600&q=80"
+  },
+  {
+    n: "Gramps Getaway",
+    c: "Sunset Crawl",
+    loc: "Virginia Key",
+    price: "$$",
+    rating: "4.5",
+    desc: "Head over the Rickenbacker Causeway before last call for breezy marina air, casual dive-bar energy, and nighttime skyline views back across the bay.",
+    signatureDrink: "Cold beer or marina cocktail",
+    happyHour: "10:20 PM - 11:00 PM",
+    dressCode: "Ultra casual",
+    coords: { x: 62, y: 78 },
+    img: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&q=80"
+  },
+  {
+    n: "THesis Hotel Rooftop",
+    c: "Sunset Crawl",
+    loc: "Coral Gables",
+    price: "$$$",
+    rating: "4.2",
+    desc: "Finish close to home at THesis Hotel in Coral Gables. The rooftop terrace gives the night a lush, resort-style landing spot after the bay and Downtown run.",
+    signatureDrink: "Final rooftop nightcap",
+    happyHour: "11:30 PM - Close",
+    dressCode: "Upscale resort casual",
+    coords: { x: 36, y: 79 },
+    img: "https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=600&q=80"
+  },
 ];
 
 const BARS = RAW_BAR_LIST.map((b, i) => {
@@ -90,15 +161,15 @@ const BARS = RAW_BAR_LIST.map((b, i) => {
     name: b.n,
     cat: b.c,
     nabe: b.loc,
-    price: ["$$", "$$$", "$$$$"][i % 3], // Deterministic
-    rating: (4.1 + (i % 10) * 0.1).toFixed(1), // Deterministic
-    desc: `Experience the ultimate Miami nightlife at ${b.n}. A staple of the ${b.loc} scene, delivering unforgettable vibes and top-tier service.`,
-    signatureDrink: SIGNATURE_DRINKS[i % SIGNATURE_DRINKS.length], // Deterministic
-    dressCode: DRESS_CODES[i % DRESS_CODES.length], // Deterministic
-    happyHour: HAPPY_HOURS[i % HAPPY_HOURS.length], // Deterministic
+    price: b.price || ["$$", "$$$", "$$$$"][i % 3], // Deterministic
+    rating: b.rating || (4.1 + (i % 10) * 0.1).toFixed(1), // Deterministic
+    desc: b.desc || `Experience the ultimate Miami nightlife at ${b.n}. A staple of the ${b.loc} scene, delivering unforgettable vibes and top-tier service.`,
+    signatureDrink: b.signatureDrink || SIGNATURE_DRINKS[i % SIGNATURE_DRINKS.length], // Deterministic
+    dressCode: b.dressCode || DRESS_CODES[i % DRESS_CODES.length], // Deterministic
+    happyHour: b.happyHour || HAPPY_HOURS[i % HAPPY_HOURS.length], // Deterministic
     // Small deterministic offset
-    coords: { x: base.x + ((i % 5) - 2), y: base.y + ((i * 3 % 5) - 2) },
-    img: imgList[i % imgList.length],
+    coords: b.coords || { x: base.x + ((i % 5) - 2), y: base.y + ((i * 3 % 5) - 2) },
+    img: b.img || imgList[i % imgList.length],
     video: VIDEOS[i % VIDEOS.length]
   };
 });
@@ -108,7 +179,8 @@ const CATEGORIES = [
   { id: "Next-Level Cocktails", label: "Cocktails", icon: Wine, color: "text-[#ff007f]", glow: "shadow-[0_0_20px_rgba(255,0,127,0.8)]" },
   { id: "Old School Legends", label: "Legends", icon: Beer, color: "text-[#ff9900]", glow: "shadow-[0_0_20px_rgba(255,153,0,0.8)]" },
   { id: "Yell at the TV", label: "Sports", icon: Tv, color: "text-[#00ffcc]", glow: "shadow-[0_0_20px_rgba(0,255,204,0.8)]" },
-  { id: "Lounges & Breweries", label: "Lounges", icon: Music, color: "text-[#b026ff]", glow: "shadow-[0_0_20px_rgba(176,38,255,0.8)]" }
+  { id: "Lounges & Breweries", label: "Lounges", icon: Music, color: "text-[#b026ff]", glow: "shadow-[0_0_20px_rgba(176,38,255,0.8)]" },
+  { id: "Sunset Crawl", label: "Sunset Crawl", icon: Sunset, color: "text-[#ffd166]", glow: "shadow-[0_0_20px_rgba(255,209,102,0.8)]" }
 ];
 
 export default function App() {
